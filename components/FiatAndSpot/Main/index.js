@@ -9,7 +9,7 @@ const items = [
   {
     title: "Total Value Locked (TVL)",
     content: "100",
-    currency: "OKT",
+    currency: "MATIC",
     price: "$450.36",
   },
   {

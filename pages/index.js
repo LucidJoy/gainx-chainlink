@@ -51,10 +51,10 @@ export default function Home() {
         }}
         expires={150}
       >
-        ⚠️ GainX Liquidity pool currently have 1 OKT Test token due to faucet
+        ⚠️ GainX Liquidity pool currently have 1 MATIC Test token due to faucet
         limits. Therefore, it is very likely that large transactions might fail
         at this moment. Perform lending functionality on demo listings (0.01,
-        0.02 OKT) only.
+        0.02 MATIC) only.
       </CookieConsent>
     </>
   );

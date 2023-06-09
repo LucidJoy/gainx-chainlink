@@ -49,7 +49,7 @@ const Confirm = ({ setStateModal }: ModalType) => {
         </div>
         <div>
           <div className={cn("h6", styles.crypto)}>
-            {activeObject.amount} OKT
+            {activeObject.amount} MATIC
           </div>
           <div className={styles.price}>APY: {activeObject.apy}%</div>
         </div>
@@ -69,7 +69,7 @@ const Confirm = ({ setStateModal }: ModalType) => {
       <div className={styles.note}>
         You are buying{" "}
         <span style={{ color: "#fff" }}>{activeObject.title}</span> for{" "}
-        <span style={{ color: "#fff" }}>{activeObject.amount} OKT.</span>
+        <span style={{ color: "#fff" }}>{activeObject.amount} MATIC.</span>
       </div>
     </>
   );
@@ -88,7 +88,7 @@ const Waiting = ({}) => {
       <div className={styles.text}>
         You are lending <span className={styles.red}>{activeObject.title}</span>{" "}
         tokens worth of{" "}
-        <span className={styles.dark}>{activeObject.amount} OKT</span>
+        <span className={styles.dark}>{activeObject.amount} MATIC</span>
       </div>
     </div>
   );

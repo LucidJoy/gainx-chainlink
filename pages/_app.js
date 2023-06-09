@@ -6,7 +6,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { WagmiConfig, createConfig, configureChains } from "wagmi";
 
 // import { filecoinHyperspace, mainnet } from "@wagmi/core/chains";
-// import { polygonMumbai, sepolia } from "wagmi/chains";
+import { polygonMumbai, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "@wagmi/core/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
@@ -28,8 +28,8 @@ const okeChain = {
   iconBackground: "#fff",
   nativeCurrency: {
     decimals: 18,
-    name: "OKT",
-    symbol: "OKT",
+    name: "MATIC",
+    symbol: "MATIC",
   },
   rpcUrls: {
     default: {
@@ -51,11 +51,11 @@ const okeChain = {
 
 const { chains, provider, publicClient, webSocketPublicClient } =
   configureChains(
-    [okeChain],
+    [polygonMumbai],
     [
       jsonRpcProvider({
         rpc: (chain) => ({
-          http: `https://exchaintestrpc.okex.org`,
+          http: `https://rpc.ankr.com/polygon_mumbai`,
         }),
       }),
     ]
