@@ -10,22 +10,22 @@ import CreateLendContext from "../../context/LendContext";
 
 const PageAnalytics = () => {
   const { graphPrompt, setGraphPrompt } = useContext(CreateLendContext);
-  // const allSalesData = SalesData.map((data) => data["Sales USD"]);
+  const allSalesData = SalesData.map((data) => data);
   const [isPrompt, setIsPrompt] = useState(false);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [days, setDays] = useState([]);
 
-  let days = [];
-  for (let i = 1; i <= results.length; i++) {
-    days.push(i);
-  }
+  // for (let i = 1; i <= results.length; i++) {
+  //   days.push(i);
+  // }
 
   const [graphData, setGraphData] = useState({
-    labels: days.map((day) => day),
+    labels: null,
     datasets: [
       {
-        label: "User Gained",
-        data: results,
+        label: "Graph",
+        data: null,
         borderColor: "#E45F35",
         tension: 0.1,
         fill: false,
@@ -34,19 +34,40 @@ const PageAnalytics = () => {
   });
 
   const handlePrompt = async () => {
-    // setIsPrompt(true);
     setLoading(true);
     const url =
       "https://msg-pre-process.onrender.com/predictions/contract_address=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d";
 
     const requestBody = {
-      message: "what can be number of active user after 0.25 months",
+      message: graphPrompt,
     };
+    console.log(requestBody);
 
     try {
       const response = await axios.post(url, requestBody);
       setResults(response.data);
       console.log("axios res -> ", response.data);
+      setIsPrompt(true);
+      let temp = [];
+      console.log(response.data.values.length);
+
+      //"message": "what can be number of active user after 0.25 months"
+
+      for (let i = 1; i <= response.data.values.length; i++) {
+        temp.push(i);
+      }
+      setDays(temp);
+
+      setGraphData((prevGraphData) => ({
+        ...prevGraphData,
+        labels: temp.map((val) => val),
+        datasets: [
+          {
+            ...prevGraphData.datasets[0],
+            data: response.data.values, // Use the correct data source here (results or response.data.values)
+          },
+        ],
+      }));
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +81,9 @@ const PageAnalytics = () => {
         <p className={styles.heading}>Analytics</p>
 
         <div className={styles.promptDiv}>
-          <p>Enter your prompt</p>
+          <p onClick={() => console.log(graphData.labels, graphData.datasets)}>
+            Enter your prompt
+          </p>
           <textarea
             cols='30'
             rows='10'
@@ -103,7 +126,8 @@ const PageAnalytics = () => {
           )}
         </div>
 
-        {isPrompt && (
+        {/* isPrompt */}
+        {graphData.labels !== null && (
           <div
             style={{
               width: "100%",
