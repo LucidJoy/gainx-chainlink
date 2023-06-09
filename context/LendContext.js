@@ -13,9 +13,9 @@ import { useRouter } from "next/router";
 
 const CreateLendContext = createContext({});
 
-const gainxContractAddress = "0x5355C26d8CA768473eCE5dcFe5a31921d2F0E2f7";
+const gainxContractAddress = "0x39EB736E460115CFa46D20e96548C3efAE56A3F4";
 // const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
-const redeemGainxContractAddress = "0xe0eBa5153d61071f68c8f82562DF4b62b2f370D4";
+const redeemGainxContractAddress = "0x86C0125B7CdA95ABAB8AB6Ea1493D16Da42a1462";
 
 // Gas-limit: 500000000
 
@@ -447,6 +447,7 @@ export const CreateLendProvider = ({ children }) => {
           nftId,
           tenure,
           apy,
+
           {
             value: listingPrice,
             gasLimit: 3000000,

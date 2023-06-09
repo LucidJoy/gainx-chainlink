@@ -20,35 +20,6 @@ import {
   getDefaultClient,
 } from "connectkit";
 
-const okeChain = {
-  id: 65,
-  name: "OKExChain Testnet",
-  network: "OKExChain Testnet",
-  iconUrl: "https://example.com/icon.svg",
-  iconBackground: "#fff",
-  nativeCurrency: {
-    decimals: 18,
-    name: "MATIC",
-    symbol: "MATIC",
-  },
-  rpcUrls: {
-    default: {
-      http: ["https://exchaintestrpc.okex.org"],
-    },
-  },
-  blockExplorers: {
-    default: {
-      name: "OKExChain Testnet",
-      url: "https://www.oklink.com/oktc-test",
-    },
-    etherscan: {
-      name: "OKExChain Testnet",
-      url: "https://www.oklink.com/oktc-test",
-    },
-  },
-  testnet: true,
-};
-
 const { chains, provider, publicClient, webSocketPublicClient } =
   configureChains(
     [polygonMumbai],
