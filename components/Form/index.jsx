@@ -143,7 +143,7 @@ const Form = ({ profile }) => {
             <option value='fvm'>FVM Hyperspace</option>
             <option value='polygon'>Polygon Mumbai</option>
           </select> */}
-          <p style={{ color: "white", fontSize: "15px" }}>OKExChain</p>
+          <p style={{ color: "white", fontSize: "15px" }}>Polygon Mumbai</p>
         </div>
 
         <div className={styles.input}>

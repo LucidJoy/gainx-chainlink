@@ -44,7 +44,7 @@ export const CreateLendProvider = ({ children }) => {
   const [myNftForm, setMyNftForm] = useState({
     nftAddress: "",
     nftId: "",
-    chain: "OKExChain",
+    chain: "Polygon Mumbai",
     estimatedAmount: "",
     tenure: "",
     apy: "",
