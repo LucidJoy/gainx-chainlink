@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chainlink/contracts": "^0.6.1",
     "@n8tb1t/use-scroll-position": "^2.0.3",
     "@spheron/browser-upload": "^1.0.3",
     "@tableland/sdk": "^4.2.2",

@@ -4,27 +4,27 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract GainxInsurance {
+    receive() external payable {}
 
-    receive() payable external {}
-    fallback() payable external {}
-    
+    fallback() external payable {}
+
     using Counters for Counters.Counter;
 
     Counters.Counter private _insuranceIdCounter;
 
-        struct Escrow {
+    struct Escrow {
         uint256 escrowId;
         uint256 startBlock;
-        uint256 endBlock;
         address nftAddress; // imp
         uint256 nftId;
         address lender;
         address borrower;
         uint256 amount; // imp
-        uint256 tenure;  // imp
+        uint256 tenure; // imp
         uint256 apy; // imp
-        bool isInsuared;  // imp
+        bool isInsuared; // imp
         bool accepted;
+        bool completed;
     }
     Escrow[] public escrows;
 
@@ -56,13 +56,23 @@ contract GainxInsurance {
     mapping(address => Insurance[]) public insurancesForAddress; // returns all insurances by an address
     mapping(uint256 => Insurance) public insuranceToDeal; // returns the insurance details by lendingId
 
-    function buyInsurance(address _buyer, uint256 _amount, uint256 _lendingId) payable public {
+    function buyInsurance(
+        address _buyer,
+        uint256 _amount,
+        uint256 _lendingId
+    ) public payable {
         uint256 _insuranceId = _insuranceIdCounter.current();
 
         Escrow storage currEscrow = idToEscrow[_lendingId];
         currEscrow.isInsuared = true;
 
-        Insurance memory newInsurance = Insurance(_insuranceId, _lendingId, _buyer, _amount, false);
+        Insurance memory newInsurance = Insurance(
+            _insuranceId,
+            _lendingId,
+            _buyer,
+            _amount,
+            false
+        );
 
         insurances.push(newInsurance); // add to the insurance array
         idToInsurance[_insuranceId] = newInsurance; // insuranceId --> Insurance
@@ -72,7 +82,7 @@ contract GainxInsurance {
         _insuranceIdCounter.increment();
     }
 
-    function claimInsurance(uint256 _id) payable public {
+    function claimInsurance(uint256 _id) public payable {
         Insurance memory claimOffer = idToInsurance[_id];
         idToInsurance[_id].claimed = true;
 
@@ -80,19 +90,25 @@ contract GainxInsurance {
         require(sent, "Failed to send Ether");
     }
 
-    function getInsuranceDetailsById(uint256 _id) public view returns(Insurance memory) {
+    function getInsuranceDetailsById(
+        uint256 _id
+    ) public view returns (Insurance memory) {
         return idToInsurance[_id];
     }
 
-    function getAllInsurancesByAddress(address _user) public view returns(Insurance[] memory) {
+    function getAllInsurancesByAddress(
+        address _user
+    ) public view returns (Insurance[] memory) {
         return insurancesForAddress[_user];
     }
 
-    function getInsuranceDetailsByLendingId(uint256 _id) public view returns(Insurance memory) {
+    function getInsuranceDetailsByLendingId(
+        uint256 _id
+    ) public view returns (Insurance memory) {
         return insuranceToDeal[_id];
     }
 
-    function getTotalInsurances() public view returns(uint256) {
+    function getTotalInsurances() public view returns (uint256) {
         return insurances.length;
     }
 }
