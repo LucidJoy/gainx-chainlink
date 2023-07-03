@@ -17,9 +17,9 @@ contract GainxEscrow is
     GainxPool,
     AutomationCompatibleInterface
 {
-    AggregatorV3Interface internal dataFeed1;
-    AggregatorV3Interface internal dataFeed2;
-    AggregatorV3Interface internal dataFeed3;
+    AggregatorV3Interface internal ethUsd;
+    AggregatorV3Interface internal glmrUsd;
+    AggregatorV3Interface internal linkUsd;
     AggregatorV3Interface internal dataFeed4;
     using Counters for Counters.Counter;
 
@@ -30,17 +30,15 @@ contract GainxEscrow is
 
     constructor(address _tnt20TokenAddr) {
         tnt20TokenAddress = _tnt20TokenAddr;
-        dataFeed1 = AggregatorV3Interface(
-            0x0715A7794a1dc8e42615F059dD6e406A6594651A
+        ethUsd = AggregatorV3Interface(
+            0x0BAA6E884cfD628b33867F9E081B44a76276fA2D
         );
-        dataFeed2 = AggregatorV3Interface(
-            0x12162c3E810393dEC01362aBf156D7ecf6159528
+        // GLMR(Glimmer -> Moonbeam token)
+        glmrUsd = AggregatorV3Interface(
+            0x537879A0beA294c1ce04161Ae827919e92C23e92
         );
-        dataFeed3 = AggregatorV3Interface(
-            0x1C2252aeeD50e0c9B64bDfF2735Ee3C932F5C408
-        );
-        dataFeed4 = AggregatorV3Interface(
-            0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+        linkUsd = AggregatorV3Interface(
+            0x5310f2d4B531BCEA8126e2aEE40BAd71B707f530
         );
 
         lastTimeStamp = block.timestamp;
@@ -60,11 +58,11 @@ contract GainxEscrow is
             /*uint startedAt*/,
             /*uint timeStamp*/,
             /*uint80 answeredInRound*/
-        ) = dataFeed1.latestRoundData();
+        ) = ethUsd.latestRoundData();
         return answer;
     }
 
-    function getLINKtoMATIC() public view returns (int) {
+    function getGLMRtoUSD() public view returns (int) {
         // prettier-ignore
         // divide by 10^3
         (
@@ -73,7 +71,7 @@ contract GainxEscrow is
             /*uint startedAt*/,
             /*uint timeStamp*/,
             /*uint80 answeredInRound*/
-        ) = dataFeed2.latestRoundData();
+        ) = glmrUsd.latestRoundData();
         return answer;
     }
 
@@ -86,20 +84,7 @@ contract GainxEscrow is
             /*uint startedAt*/,
             /*uint timeStamp*/,
             /*uint80 answeredInRound*/
-        ) = dataFeed3.latestRoundData();
-        return answer;
-    }
-
-    function getMATICtoUSD() public view returns (int) {
-        // prettier-ignore
-        // divide by 10^3
-        (
-            /* uint80 roundID */,
-            int answer,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = dataFeed4.latestRoundData();
+        ) = linkUsd.latestRoundData();
         return answer;
     }
 

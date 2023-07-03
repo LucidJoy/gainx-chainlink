@@ -6,7 +6,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { WagmiConfig, createConfig, configureChains } from "wagmi";
 
 // import { filecoinHyperspace, mainnet } from "@wagmi/core/chains";
-import { polygonMumbai, sepolia } from "wagmi/chains";
+import { moonbaseAlpha, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "@wagmi/core/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
@@ -22,11 +22,11 @@ import {
 
 const { chains, provider, publicClient, webSocketPublicClient } =
   configureChains(
-    [polygonMumbai],
+    [moonbaseAlpha],
     [
       jsonRpcProvider({
         rpc: (chain) => ({
-          http: `https://rpc.ankr.com/polygon_mumbai`,
+          http: `https://rpc.testnet.moonbeam.network	`,
         }),
       }),
     ]

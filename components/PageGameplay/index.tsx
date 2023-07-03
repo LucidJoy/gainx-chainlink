@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import cn from "classnames";
 import styles from "./PageGameplay.module.sass";
 import Hero from "./Hero";
@@ -11,6 +11,7 @@ import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 
 import { items } from "../../constants/infoColumns";
 import { sections } from "../../constants/details";
+import CreateLendContext from "../../context/LendContext";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -20,6 +21,9 @@ type PageGameplayProps = {
 
 const PageGameplay = ({ className }: PageGameplayProps) => {
   const [mounted, setMounted] = useState(false);
+
+  const { getETHtoUSD, getGLMRtoUSD, getLINKtoUSD } =
+    useContext(CreateLendContext);
 
   const fullpagesRef = useRef(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -132,6 +136,12 @@ const PageGameplay = ({ className }: PageGameplayProps) => {
           </div>
 
           <div ref={detailsRef} />
+
+          <div>
+            <button onClick={() => getETHtoUSD()}>ethusd</button>
+            <button onClick={() => getGLMRtoUSD()}>glmr</button>
+            <button onClick={() => getLINKtoUSD()}>link</button>
+          </div>
 
           {/* <JoinCommunity /> */}
         </>
