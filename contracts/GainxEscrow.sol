@@ -7,9 +7,9 @@ import "@chainlink/contracts/src/v0.8/AutomationCompatible.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import "contracts/GainxInsurance.sol";
-import "contracts/GainxFuture.sol";
-import "contracts/GainxPool.sol";
+import "./GainxInsurance.sol";
+import "./GainxFuture.sol";
+import "./GainxPool.sol";
 
 contract GainxEscrow is
     GainxInsurance,
@@ -100,7 +100,7 @@ contract GainxEscrow is
         uint256 _escrowId = _escrowIdCounter.current();
 
         uint256 _startBlock = block.number;
-        uint256 _endBlock = _startBlock + (_tenure * 2880);
+        // uint256 _endBlock = _startBlock + (_tenure * 2880);
 
         _lockFutureApy(_escrowId, _apy); // Future for APY
 
