@@ -19,9 +19,9 @@ const CreateLendContext = createContext({});
 
 // const gainxContractAddress = "0x39EB736E460115CFa46D20e96548C3efAE56A3F4";
 const gainxContractAddressMoonbeam =
-  "0x48Dffb4Bd4B02561083B983a7e6CC68AEDd84331";
+  "0x481044098A4b2Bc3968F190ea75e461Ed3b51ac0";
 // const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
-const redeemGainxContractAddress = "0x86C0125B7CdA95ABAB8AB6Ea1493D16Da42a1462";
+const redeemGainxContractAddress = "0xd21cae78Cc29F4F0896e26F03c82366f02a5Bd6d";
 
 // Gas-limit: 500000000
 
