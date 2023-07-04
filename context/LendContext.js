@@ -50,7 +50,7 @@ export const CreateLendProvider = ({ children }) => {
   const [myNftForm, setMyNftForm] = useState({
     nftAddress: "",
     nftId: "",
-    chain: "Polygon Mumbai",
+    chain: "Moonbase Alpha",
     estimatedAmount: "",
     tenure: "",
     apy: "",
@@ -79,6 +79,10 @@ export const CreateLendProvider = ({ children }) => {
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
   const [sentiment, setSentiment] = useState(0.72);
+
+  const [ethToUsd, setEthToUsd] = useState(null);
+  const [glmrToUsd, setGlmrToUsd] = useState(null);
+  const [linktoUsd, setLinktoUsd] = useState(null);
 
   const demoItem = {
     escrowId: "0",
@@ -728,6 +732,12 @@ export const CreateLendProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    getETHtoUSD();
+    getGLMRtoUSD();
+    getLINKtoUSD();
+  }, []);
+
   const getETHtoUSD = async () => {
     try {
       if (window.ethereum) {
@@ -747,6 +757,8 @@ export const CreateLendProvider = ({ children }) => {
           "getETHtoUSD -> ",
           (response.toNumber() / 10 ** 8).toFixed(2)
         );
+
+        setEthToUsd((response.toNumber() / 10 ** 8).toFixed(2));
       }
     } catch (error) {
       console.log(error);
@@ -772,6 +784,8 @@ export const CreateLendProvider = ({ children }) => {
           "getGLMRtoUSD -> ",
           (response.toNumber() / 10 ** 8).toFixed(2)
         );
+
+        setGlmrToUsd((response.toNumber() / 10 ** 8).toFixed(2));
       }
     } catch (error) {
       console.log(error);
@@ -797,6 +811,8 @@ export const CreateLendProvider = ({ children }) => {
           "getLINKtoUSD -> ",
           (response.toNumber() / 10 ** 8).toFixed(2)
         );
+
+        setLinktoUsd((response.toNumber() / 10 ** 8).toFixed(2));
       }
     } catch (error) {
       console.log(error);
@@ -883,9 +899,9 @@ export const CreateLendProvider = ({ children }) => {
         setUploadLink,
         dynamicLink,
         setDynamicLink,
-        getETHtoUSD,
-        getGLMRtoUSD,
-        getLINKtoUSD,
+        ethToUsd,
+        glmrToUsd,
+        linktoUsd,
       }}
     >
       {children}

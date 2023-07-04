@@ -19,6 +19,7 @@ import {
   ConnectKitButton,
   getDefaultClient,
 } from "connectkit";
+import { useEffect } from "react";
 
 const { chains, provider, publicClient, webSocketPublicClient } =
   configureChains(

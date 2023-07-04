@@ -17,12 +17,15 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 type PageGameplayProps = {
   className?: string;
+  ethToUsd?: string;
+  glmrToUsd?: string;
+  linktoUsd?: string;
 };
 
 const PageGameplay = ({ className }: PageGameplayProps) => {
   const [mounted, setMounted] = useState(false);
 
-  const { getETHtoUSD, getGLMRtoUSD, getLINKtoUSD } =
+  const { ethToUsd, glmrToUsd, linktoUsd }: PageGameplayProps =
     useContext(CreateLendContext);
 
   const fullpagesRef = useRef(null);
@@ -138,9 +141,9 @@ const PageGameplay = ({ className }: PageGameplayProps) => {
           <div ref={detailsRef} />
 
           <div>
-            <button onClick={() => getETHtoUSD()}>ethusd</button>
-            <button onClick={() => getGLMRtoUSD()}>glmr</button>
-            <button onClick={() => getLINKtoUSD()}>link</button>
+            <p>{ethToUsd}</p>
+            <p>{glmrToUsd}</p>
+            <p>{linktoUsd}</p>
           </div>
 
           {/* <JoinCommunity /> */}

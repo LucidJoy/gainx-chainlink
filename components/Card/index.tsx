@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Card.module.sass";
 import cn from "classnames";
@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 // import ModalSale from "../ModalSale";
 
 import { numberWithCommas } from "../../utils";
+import CreateLendContext from "../../context/LendContext";
 
 type CardProps = {
   className?: string;
@@ -20,9 +21,16 @@ type CardProps = {
   offer?: any;
 };
 
+type CurrencyProps = {
+  ethToUsd?: string;
+  glmrToUsd?: string;
+};
+
 const Card = ({ className, item, bigPreview, saleItem, offer }: CardProps) => {
   const [visibleModalSale, setVisibleModalSale] = useState<boolean>(false);
   const [blink, setBlink] = useState<boolean>(false);
+
+  const { ethToUsd, glmrToUsd }: CurrencyProps = useContext(CreateLendContext);
 
   const router = useRouter();
 
@@ -117,7 +125,19 @@ const Card = ({ className, item, bigPreview, saleItem, offer }: CardProps) => {
       <div className={cn("details_bottom", styles.details_bottom)}>
         <div className={styles.stat}>
           <div className={cn("label-purple", styles.code)}>#{item.code}</div>
-          <div className={styles.crypto}>{offer.amount} MATIC</div>
+          <div className={styles.crypto}>
+            {((offer.amount * ethToUsd) / glmrToUsd).toFixed(2)} GLMR
+          </div>
+          <div
+            className={styles.crypto}
+            style={{
+              color: "orange",
+              borderColor: "#ffa60053",
+              marginLeft: "7px",
+            }}
+          >
+            {offer.amount} ETH
+          </div>
         </div>
         <div className={styles.info}>
           <div className={cn("title", styles.title)}>{item.title}</div>

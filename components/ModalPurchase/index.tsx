@@ -34,8 +34,15 @@ type ModalType = {
   setStateModal: (e: ModalStatesType) => void;
 };
 
+type CurrencyProps = {
+  ethToUsd?: any;
+  glmrToUsd?: any;
+  activeObject?: any;
+};
+
 const Confirm = ({ setStateModal }: ModalType) => {
-  const { activeObject } = useContext(CreateLendContext);
+  const { activeObject, ethToUsd, glmrToUsd }: CurrencyProps =
+    useContext(CreateLendContext);
 
   return (
     <>
@@ -48,8 +55,19 @@ const Confirm = ({ setStateModal }: ModalType) => {
           </div> */}
         </div>
         <div>
-          <div className={cn("h6", styles.crypto)}>
-            {activeObject.amount} MATIC
+          <div className={cn("h6", styles.crypto)} style={{ width: "230px" }}>
+            {((activeObject.amount * ethToUsd) / glmrToUsd).toFixed(2)} GLMR
+          </div>
+          <div
+            className={styles.crypto}
+            style={{
+              color: "orange",
+              borderColor: "#ffa60053",
+              marginLeft: "7px",
+              fontWeight: "600",
+            }}
+          >
+            {activeObject.amount} ETH
           </div>
           <div className={styles.price}>APY: {activeObject.apy}%</div>
         </div>
@@ -69,14 +87,17 @@ const Confirm = ({ setStateModal }: ModalType) => {
       <div className={styles.note}>
         You are buying{" "}
         <span style={{ color: "#fff" }}>{activeObject.title}</span> for{" "}
-        <span style={{ color: "#fff" }}>{activeObject.amount} MATIC.</span>
+        <span style={{ color: "#fff" }}>
+          {((activeObject.amount * ethToUsd) / glmrToUsd).toFixed(2)} GLMR.{" "}
+        </span>
       </div>
     </>
   );
 };
 
 const Waiting = ({}) => {
-  const { activeObject } = useContext(CreateLendContext);
+  const { activeObject, ethToUsd, glmrToUsd }: CurrencyProps =
+    useContext(CreateLendContext);
 
   return (
     <div className={cn(styles.waiting, styles.centered)}>
@@ -88,7 +109,9 @@ const Waiting = ({}) => {
       <div className={styles.text}>
         You are lending <span className={styles.red}>{activeObject.title}</span>{" "}
         tokens worth of{" "}
-        <span className={styles.dark}>{activeObject.amount} MATIC</span>
+        <span style={{ color: "#fff" }} className={styles.dark}>
+          {((activeObject.amount * ethToUsd) / glmrToUsd).toFixed(2)} GLMR.{" "}
+        </span>
       </div>
     </div>
   );
