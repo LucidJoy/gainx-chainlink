@@ -26,6 +26,8 @@ const AssetBalances = ({ overview, lender, borrower }) => {
     ended,
     setEnded,
     getIdToLendingStates,
+    ethToUsd,
+    glmrToUsd,
   } = useContext(CreateLendContext);
 
   const [status, setStatus] = useState([]);
@@ -83,7 +85,6 @@ const AssetBalances = ({ overview, lender, borrower }) => {
                 </div> */}
                   <div className={styles.details}>
                     <div className={styles.info}>{`# ${x.escrowId}`}</div>
-                    {/* <div className={styles.info}>001</div> */}
                   </div>
                 </div>
               </div>
@@ -93,21 +94,23 @@ const AssetBalances = ({ overview, lender, borrower }) => {
                     {`${x.apy} % APY`}
                   </div>
                 )}
-                {/* <div className={cn("category-green", styles.category)}>15</div> */}
               </div>
               <div className={styles.col}>
-                <div className={styles.info}>{`${x.amount} MATIC`}</div>
-                {/* <div className={styles.info}>2 MATIC</div> */}
+                <div className={styles.info}>{`${(
+                  (x.amount * ethToUsd) /
+                  glmrToUsd
+                ).toFixed(2)} GLMR`}</div>
+                <div className={styles.info} style={{ color: "orange" }}>
+                  {x.amount} ETH
+                </div>
               </div>
               <div className={styles.col}>
                 <div className={styles.info}>{`${x.tenure} months`}</div>
-                {/* <div className={styles.info}>{`7 days`}</div> */}
               </div>
               <div className={styles.col}>
                 <div className={styles.info}>{`${
                   x.isInsuared ? "True" : "Not Insured"
                 }`}</div>
-                {/* <div className={styles.info}>True</div> */}
               </div>
               <div className={styles.col}>
                 <div

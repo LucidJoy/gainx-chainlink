@@ -37,6 +37,8 @@ const CardDetails = ({}: CardDetailsProps) => {
     activeObject,
     setActiveObject,
     acceptOffer,
+    glmrToUsd,
+    ethToUsd,
   } = useContext(CreateLendContext);
 
   const router = useRouter();
@@ -94,7 +96,10 @@ const CardDetails = ({}: CardDetailsProps) => {
               className={styles.description}
               title={activeObject.title}
               code={id}
-              crypto={`${activeObject.amount} MATIC`}
+              crypto={`${((activeObject.amount * ethToUsd) / glmrToUsd).toFixed(
+                2
+              )}`}
+              inEthers={activeObject.amount}
               price={`${activeObject.tenure} Months`}
             />
             <div className={styles.control}>

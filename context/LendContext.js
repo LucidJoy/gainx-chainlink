@@ -13,7 +13,13 @@ import { useRouter } from "next/router";
 
 const CreateLendContext = createContext({});
 
-const gainxContractAddress = "0x39EB736E460115CFa46D20e96548C3efAE56A3F4";
+// moonbeam
+// tnt20 = 0x7B4CDa7e4d82D03F9681d41Ca7f66567757859A9
+// gainxEscrow = 0x48Dffb4Bd4B02561083B983a7e6CC68AEDd84331
+
+// const gainxContractAddress = "0x39EB736E460115CFa46D20e96548C3efAE56A3F4";
+const gainxContractAddressMoonbeam =
+  "0x48Dffb4Bd4B02561083B983a7e6CC68AEDd84331";
 // const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
 const redeemGainxContractAddress = "0x86C0125B7CdA95ABAB8AB6Ea1493D16Da42a1462";
 
@@ -44,7 +50,7 @@ export const CreateLendProvider = ({ children }) => {
   const [myNftForm, setMyNftForm] = useState({
     nftAddress: "",
     nftId: "",
-    chain: "Polygon Mumbai",
+    chain: "Moonbase Alpha",
     estimatedAmount: "",
     tenure: "",
     apy: "",
@@ -73,6 +79,10 @@ export const CreateLendProvider = ({ children }) => {
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
   const [sentiment, setSentiment] = useState(0.72);
+
+  const [ethToUsd, setEthToUsd] = useState(null);
+  const [glmrToUsd, setGlmrToUsd] = useState(null);
+  const [linktoUsd, setLinktoUsd] = useState(null);
 
   const demoItem = {
     escrowId: "0",
@@ -175,7 +185,7 @@ export const CreateLendProvider = ({ children }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        gainxContractAddress,
+        gainxContractAddressMoonbeam,
         gainxAbi,
         provider
       );
@@ -289,7 +299,7 @@ export const CreateLendProvider = ({ children }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        gainxContractAddress,
+        gainxContractAddressMoonbeam,
         gainxAbi,
         provider
       );
@@ -349,7 +359,7 @@ export const CreateLendProvider = ({ children }) => {
       const signer = provider.getSigner();
 
       const contract = new ethers.Contract(
-        gainxContractAddress,
+        gainxContractAddressMoonbeam,
         gainxAbi,
         provider
       );
@@ -424,7 +434,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           signer
         );
@@ -489,7 +499,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           signer
         );
@@ -544,7 +554,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           signer
         );
@@ -599,7 +609,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           signer
         );
@@ -651,7 +661,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           signer
         );
@@ -696,7 +706,7 @@ export const CreateLendProvider = ({ children }) => {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(
-          gainxContractAddress,
+          gainxContractAddressMoonbeam,
           gainxAbi,
           provider
         );
@@ -719,6 +729,93 @@ export const CreateLendProvider = ({ children }) => {
     } catch (error) {
       // alert("Error while redeeming amount!");
       console.log("Err lending states Amt: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getETHtoUSD();
+    getGLMRtoUSD();
+    getLINKtoUSD();
+  }, []);
+
+  const getETHtoUSD = async () => {
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          gainxContractAddressMoonbeam,
+          gainxAbi,
+          signer
+        );
+
+        const response = await contract.getETHtoUSD();
+        console.log(
+          "getETHtoUSD -> ",
+          (response.toNumber() / 10 ** 8).toFixed(2)
+        );
+
+        setEthToUsd((response.toNumber() / 10 ** 8).toFixed(2));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getGLMRtoUSD = async () => {
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          gainxContractAddressMoonbeam,
+          gainxAbi,
+          signer
+        );
+
+        const response = await contract.getGLMRtoUSD();
+        console.log(
+          "getGLMRtoUSD -> ",
+          (response.toNumber() / 10 ** 8).toFixed(2)
+        );
+
+        setGlmrToUsd((response.toNumber() / 10 ** 8).toFixed(2));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getLINKtoUSD = async () => {
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          gainxContractAddressMoonbeam,
+          gainxAbi,
+          signer
+        );
+
+        const response = await contract.getLINKtoUSD();
+        console.log(
+          "getLINKtoUSD -> ",
+          (response.toNumber() / 10 ** 8).toFixed(2)
+        );
+
+        setLinktoUsd((response.toNumber() / 10 ** 8).toFixed(2));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -802,6 +899,9 @@ export const CreateLendProvider = ({ children }) => {
         setUploadLink,
         dynamicLink,
         setDynamicLink,
+        ethToUsd,
+        glmrToUsd,
+        linktoUsd,
       }}
     >
       {children}

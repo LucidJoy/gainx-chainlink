@@ -17,6 +17,7 @@ type DescriptionProps = {
   crypto: string;
   price: number;
   small?: boolean;
+  inEthers?: string;
 };
 
 const Description = ({
@@ -27,6 +28,7 @@ const Description = ({
   crypto,
   price,
   small,
+  inEthers,
   classNameDetails,
 }: DescriptionProps) => (
   <div className={cn(styles.description, className)}>
@@ -62,7 +64,24 @@ const Description = ({
       <h1 className={cn(!small ? "h1" : "h3", styles.title)}>{title}</h1>
     </div>
     <div className={styles.prices}>
-      <div className={cn("h4", styles.crypto)}>{crypto}</div>
+      <div
+        className={cn("h4", styles.crypto)}
+        style={{ display: "flex", fontSize: "30px", gap: "8px" }}
+      >
+        {crypto} <span>GLMR</span>
+      </div>
+      <div
+        className={cn("h4", styles.crypto)}
+        style={{
+          display: "flex",
+          fontSize: "30px",
+          gap: "8px",
+          justifyContent: "end",
+          color: "orange",
+        }}
+      >
+        {inEthers} <span>ETH</span>
+      </div>
       <div className={styles.price}>{numberWithCommas(price)}</div>
     </div>
   </div>
