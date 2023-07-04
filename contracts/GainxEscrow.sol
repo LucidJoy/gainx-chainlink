@@ -90,7 +90,7 @@ contract GainxEscrow is
 
     function _initEscrow(
         address _borrower,
-        uint256 _amount,
+        int256 _amount,
         address _nftAddress,
         uint256 _nftId,
         uint256 _tenure,
@@ -104,6 +104,10 @@ contract GainxEscrow is
 
         _lockFutureApy(_escrowId, _apy); // Future for APY
 
+        int256 ethInUsd = getETHtoUSD();
+        int256 glmrInUsd = getGLMRtoUSD();
+        int256 finalAmount = (_amount * ethInUsd) / glmrInUsd;
+
         Escrow memory newEscrow = Escrow(
             _escrowId,
             _startBlock,
@@ -111,7 +115,7 @@ contract GainxEscrow is
             _nftId,
             address(0),
             _borrower,
-            _amount,
+            finalAmount,
             _tenure,
             _apy,
             false,
@@ -158,17 +162,19 @@ contract GainxEscrow is
         currEscrow.accepted = true;
         currEscrow.lender = msg.sender;
 
-        uint256 _repayAmt = currEscrow.amount +
-            ((currEscrow.apy * currEscrow.amount) / 100); // amount --> 10^18 format
-        lenderToRepayAmt[msg.sender] = _repayAmt;
+        int256 _repayAmt = currEscrow.amount +
+            ((int256(currEscrow.apy) * currEscrow.amount) / 100); // amount --> 10^18 format
+        lenderToRepayAmt[msg.sender] = uint256(_repayAmt);
         lendersList[msg.sender].push(currEscrow);
 
-        (bool sent, ) = currEscrow.borrower.call{value: currEscrow.amount}("");
+        (bool sent, ) = currEscrow.borrower.call{
+            value: uint256(currEscrow.amount)
+        }("");
         require(sent, "Failed to send Ether");
 
         IERC20(tnt20TokenAddress).transfer(
             msg.sender,
-            idToEscrow[_escrowId].amount
+            uint256(idToEscrow[_escrowId].amount)
         );
     }
 

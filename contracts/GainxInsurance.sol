@@ -19,7 +19,7 @@ contract GainxInsurance {
         uint256 nftId;
         address lender;
         address borrower;
-        uint256 amount; // imp
+        int256 amount; // imp
         uint256 tenure; // imp
         uint256 apy; // imp
         bool isInsuared; // imp
@@ -47,7 +47,7 @@ contract GainxInsurance {
         uint256 insuranceId;
         uint256 lendingId;
         address buyer;
-        uint256 amount;
+        int256 amount;
         bool claimed;
     }
     Insurance[] public insurances;
@@ -58,7 +58,7 @@ contract GainxInsurance {
 
     function buyInsurance(
         address _buyer,
-        uint256 _amount,
+        int256 _amount,
         uint256 _lendingId
     ) public payable {
         uint256 _insuranceId = _insuranceIdCounter.current();
@@ -86,7 +86,9 @@ contract GainxInsurance {
         Insurance memory claimOffer = idToInsurance[_id];
         idToInsurance[_id].claimed = true;
 
-        (bool sent, ) = claimOffer.buyer.call{value: claimOffer.amount}("");
+        (bool sent, ) = claimOffer.buyer.call{
+            value: uint256(claimOffer.amount)
+        }("");
         require(sent, "Failed to send Ether");
     }
 
