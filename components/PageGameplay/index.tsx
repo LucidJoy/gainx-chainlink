@@ -140,12 +140,6 @@ const PageGameplay = ({ className }: PageGameplayProps) => {
 
           <div ref={detailsRef} />
 
-          <div>
-            <p>{ethToUsd}</p>
-            <p>{glmrToUsd}</p>
-            <p>{linktoUsd}</p>
-          </div>
-
           {/* <JoinCommunity /> */}
         </>
       )}
